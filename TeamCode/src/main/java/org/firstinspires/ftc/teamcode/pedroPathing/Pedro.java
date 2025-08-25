@@ -18,8 +18,12 @@ import java.util.function.Function;
 public abstract class Pedro {
     static{
         Constants.setConstants(FConstants.class, LConstants.class);
+        PedroSleepUntilPose.setGetPose(()->{
+            Pose pose=getPose();
+            return new double[]{pose.getX(),pose.getY(),pose.getHeading()};
+        });
     }
-    public static Follower follower;
+    public static Follower follower=new Follower(Components.getHardwareMap(), FConstants.class, LConstants.class);
     public static LambdaInterfaces.ReturningFunc<Pose> getPose = new Components.CachedReader<>(
             ()->{follower.updatePose(); return follower.getPose();},
             1
@@ -29,13 +33,6 @@ public abstract class Pedro {
     }
     public static void setStartingPose(Pose pose){
         follower.poseUpdater.setStartingPose(pose);
-    }
-    public static void setFollower(){
-        follower=new Follower(Components.getHardwareMap(), FConstants.class, LConstants.class);
-        PedroSleepUntilPose.setGetPose(()->{
-            Pose pose=getPose();
-            return new double[]{pose.getX(),pose.getY(),pose.getHeading()};
-        });
     }
     public static Follower getFollower(){
         return follower;
