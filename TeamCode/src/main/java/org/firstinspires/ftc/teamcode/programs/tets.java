@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.programs;
 
-import static org.firstinspires.ftc.teamcode.base.NonLinearActions.executor;
+import static org.firstinspires.ftc.teamcode.base.Commands.executor;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,7 +13,7 @@ public class tets extends LinearOpMode {
     public void runOpMode(){
         DaniDrivetrain.init(hardwareMap,telemetry);
         waitForStart();
-        executor.setActions(
+        executor.setCommands(
 
         );
         executor.runLoop(this::opModeIsActive);
