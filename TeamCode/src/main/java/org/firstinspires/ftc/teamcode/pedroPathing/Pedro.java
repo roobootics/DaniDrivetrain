@@ -53,7 +53,7 @@ public abstract class Pedro {
         public PedroLinearCommand(double x, double y, double heading, boolean holdEnd){ //Goes to the position indicated by the inputs
             super(
                     (PathBuilder b)-> b
-                            .addPath(new BezierLine(follower.getPose(),new Pose(x,y)))
+                            .addPath(new BezierLine(follower::getPose,new Pose(x,y)))
                             .setLinearHeadingInterpolation(follower.getPose().getHeading(),heading),
                     holdEnd
             );
@@ -63,9 +63,12 @@ public abstract class Pedro {
         public PedroLinearChainCommand(boolean holdEnd, Pose...poses){ //In a path chain, goes to all positions provided one at a time
             super(
                     (PathBuilder b)->{
-                            for (Pose pose : poses) {
-                                b.addPath(new BezierLine(follower::getPose, pose));
-                                b.setLinearHeadingInterpolation(pose.getHeading(), pose.getHeading());
+                            for (int i=0;i<poses.length;i++) {
+                                b.addPath(new BezierLine(follower::getPose, poses[i]));
+                                if (i==0){
+                                    b.setLinearHeadingInterpolation(follower.getPose().getHeading(), poses[i].getHeading());}
+                                else{
+                                    b.setLinearHeadingInterpolation(poses[i-1].getHeading(), poses[i].getHeading());}
                             }
                             return b;
                     },
@@ -77,7 +80,7 @@ public abstract class Pedro {
         public PedroLinearTransformCommand(double x, double y, double heading, boolean holdEnd){ //Transforms from current position by the given inputs
             super(
                     (PathBuilder b)-> b
-                            .addPath(new BezierLine(follower.getPose(),new Pose(follower.getPose().getX()+x,follower.getPose().getY()+y)))
+                            .addPath(new BezierLine(follower::getPose,new Pose(follower.getPose().getX()+x,follower.getPose().getY()+y)))
                             .setLinearHeadingInterpolation(follower.getPose().getHeading(),follower.getPose().getHeading()+heading),
                     holdEnd
             );
@@ -91,7 +94,7 @@ public abstract class Pedro {
     public static class PedroInstantLinearCommand extends PedroInstantCommand{
         public PedroInstantLinearCommand(double x, double y, double heading, boolean holdEnd) {
             super((PathBuilder b)-> b
-                            .addPath(new BezierLine(follower.getPose(),new Pose(x,y)))
+                            .addPath(new BezierLine(follower::getPose,new Pose(x,y)))
                             .setLinearHeadingInterpolation(follower.getPose().getHeading(),heading),
                     holdEnd
             );
@@ -101,9 +104,12 @@ public abstract class Pedro {
         public PedroInstantLinearChainCommand(boolean holdEnd, Pose...poses){ //In a path chain, goes to all positions provided one at a time
             super(
                     (PathBuilder b)->{
-                        for (Pose pose : poses) {
-                            b.addPath(new BezierLine(follower::getPose, pose));
-                            b.setLinearHeadingInterpolation(pose.getHeading(), pose.getHeading());
+                        for (int i=0;i<poses.length;i++) {
+                            b.addPath(new BezierLine(follower::getPose, poses[i]));
+                            if (i==0){
+                                b.setLinearHeadingInterpolation(follower.getPose().getHeading(), poses[i].getHeading());}
+                            else{
+                                b.setLinearHeadingInterpolation(poses[i-1].getHeading(), poses[i].getHeading());}
                         }
                         return b;
                     },
@@ -114,7 +120,7 @@ public abstract class Pedro {
     public static class PedroInstantLinearTransformCommand extends PedroInstantCommand{
         public PedroInstantLinearTransformCommand(boolean holdEnd, double x, double y, double heading) {
             super((PathBuilder b)-> b
-                            .addPath(new BezierLine(follower.getPose(),new Pose(follower.getPose().getX()+x,follower.getPose().getY()+y)))
+                            .addPath(new BezierLine(follower::getPose,new Pose(follower.getPose().getX()+x,follower.getPose().getY()+y)))
                             .setLinearHeadingInterpolation(follower.getPose().getHeading(),follower.getPose().getHeading()+heading),
                     holdEnd
             );
