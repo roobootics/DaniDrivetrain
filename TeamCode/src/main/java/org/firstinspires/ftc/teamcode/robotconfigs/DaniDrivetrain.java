@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.robotconfigs;
 
 import static org.firstinspires.ftc.teamcode.base.Components.initialize;
 
-import com.pedropathing.localization.Pose;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -18,7 +18,7 @@ public class DaniDrivetrain {
 
     public static void init(HardwareMap hardwareMap, Telemetry telemetry){
         initialize(hardwareMap,telemetry);
-        Pedro.setStartingPose(new Pose(0,0,0,false));
+        Pedro.createFollower();
         leftFront=new BotMotor("leftFront",new String[]{"leftFront"},()->1.0,()->-1.0,new DcMotorSimple.Direction[]{DcMotorSimple.Direction.REVERSE});
         leftRear=new BotMotor("leftRear",new String[]{"leftRear"},()->1.0,()->-1.0,new DcMotorSimple.Direction[]{DcMotorSimple.Direction.REVERSE});
         rightFront=new BotMotor("rightFront",new String[]{"rightFront"},()->1.0,()->-1.0,new DcMotorSimple.Direction[]{DcMotorSimple.Direction.FORWARD});

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.programs;
 
 import static org.firstinspires.ftc.teamcode.base.Commands.executor;
+import static org.firstinspires.ftc.teamcode.base.Components.telemetryAddData;
+import static org.firstinspires.ftc.teamcode.base.Components.telemetryAddLine;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Pedro.follower;
 import static org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain.leftFront;
 import static org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain.leftRear;
@@ -11,6 +13,7 @@ import org.firstinspires.ftc.teamcode.base.Commands.*;
 import org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain;
 import org.firstinspires.ftc.teamcode.pedroPathing.Pedro.*;
 
+import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -33,7 +36,7 @@ public class tets extends LinearOpMode {
                             new Pose(48,24,-90)
                     ),
                     new PedroLinearTransformCommand(24,-12,90,false),
-                    new PedroInstantLinearCommand(120,48,-45,false),
+                    new PedroInstantLinearCommand(96,48,-45,false),
                     new SleepCommand(0.5),
                     new PedroInstantLinearCommand(48,24,0,false),
                     new PedroSleepUntilPose(63,29,0,2,5),
@@ -41,6 +44,7 @@ public class tets extends LinearOpMode {
                     new SleepUntilTrue(()->!follower.isBusy()),
                     new InstantCommand(()->follower.setMaxPower(1.0)),
                     new RunResettingLoop(
+                            new InstantCommand(()->telemetryAddLine("teleop")),
                             new PressTrigger(
                                     new IfThen(
                                             ()->gamepad1.a,
@@ -58,6 +62,17 @@ public class tets extends LinearOpMode {
             ),
             Pedro.updateCommand()
         );
+        executor.setWriteToTelemetry(()->{
+            telemetryAddData("busy",follower.isBusy());
+            telemetryAddData("x",follower.getPose().getX());
+            telemetryAddData("y",follower.getPose().getY());
+            telemetryAddData("heading",follower.getPose().getHeading());
+            telemetryAddData("targetx",follower.getCurrentPath().getLastControlPoint().getX());
+            telemetryAddData("targety",follower.getCurrentPath().getLastControlPoint().getY());
+            telemetryAddData("targetheading",follower.getHeadingGoal(follower.getCurrentTValue()));
+            telemetryAddData("drivevectorx",follower.getDriveVector().getXComponent());
+            telemetryAddData("drivevectory",follower.getDriveVector().getYComponent());
+        });
         executor.runLoop(this::opModeIsActive);
     }
 }

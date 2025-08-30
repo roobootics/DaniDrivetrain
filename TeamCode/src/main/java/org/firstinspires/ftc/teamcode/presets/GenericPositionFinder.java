@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.presets;
 
 import static org.firstinspires.ftc.teamcode.base.Components.actuators;
-import static org.firstinspires.ftc.teamcode.base.NonLinearActions.executor;
+import static org.firstinspires.ftc.teamcode.base.Commands.executor;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.base.Components;
-import org.firstinspires.ftc.teamcode.base.NonLinearActions;
+import org.firstinspires.ftc.teamcode.base.Commands;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -46,32 +46,32 @@ public abstract class GenericPositionFinder extends LinearOpMode { //Used to fin
             }
             actuatorNames.add(name);
         }
-        NonLinearActions.IfThen[] conditions = new NonLinearActions.IfThen[actuatorNames.size()];
+        Commands.IfThen[] conditions = new Commands.IfThen[actuatorNames.size()];
         for (int i=0;i<actuatorNames.size();i++){
             int finalI = i;
-            conditions[i]=new NonLinearActions.IfThen(
+            conditions[i]=new Commands.IfThen(
                     ()->(selectedActuatorIndex==finalI),
-                    Objects.requireNonNull(actuators.get(actuatorNames.get(i))).triggeredDynamicTargetAction(()->(gamepad1.left_bumper),()->(gamepad1.right_bumper),dynamicChangeAmount)
+                    Objects.requireNonNull(actuators.get(actuatorNames.get(i))).triggeredDynamicTargetCommand(()->(gamepad1.left_bumper),()->(gamepad1.right_bumper),dynamicChangeAmount)
             );
         }
 
         waitForStart();
         executor.setWriteToTelemetry(this::updateTelemetry);
-        executor.setActions(
-                new NonLinearActions.RunResettingLoop(
-                        new NonLinearActions.PressTrigger(new NonLinearActions.IfThen(
+        executor.setCommands(
+                new Commands.RunResettingLoop(
+                        new Commands.PressTrigger(new Commands.IfThen(
                                 ()->(gamepad1.dpad_left),
-                                new NonLinearActions.InstantAction(this::shiftSelectionLeft)
+                                new Commands.InstantCommand(this::shiftSelectionLeft)
                         )),
-                        new NonLinearActions.PressTrigger(new NonLinearActions.IfThen(
+                        new Commands.PressTrigger(new Commands.IfThen(
                                 ()->(gamepad1.dpad_right),
-                                new NonLinearActions.InstantAction(this::shiftSelectionRight)
+                                new Commands.InstantCommand(this::shiftSelectionRight)
                         )),
-                        new NonLinearActions.ConditionalAction(
+                        new Commands.ConditionalCommand(
                                 conditions
                         )
                 ),
-                new NonLinearActions.PowerOnCommand()
+                new Commands.PowerOnCommand()
         );
         executor.runLoop(this::opModeIsActive);
     }
