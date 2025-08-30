@@ -11,20 +11,19 @@ import org.firstinspires.ftc.teamcode.base.Commands.*;
 import org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain;
 import org.firstinspires.ftc.teamcode.pedroPathing.Pedro.*;
 
-import com.pedropathing.localization.Pose;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Pedro;
 import org.firstinspires.ftc.teamcode.base.Components.BotMotor;
-import org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain;
 
 @TeleOp
 public class tets extends LinearOpMode {
     @Override
     public void runOpMode(){
         DaniDrivetrain.init(hardwareMap,telemetry);
-        Pedro.setStartingPose(new Pose(48,24,0));
+        follower.setStartingPose(new Pose(48,24,0));
         waitForStart();
         executor.setCommands(
             new SequentialCommand(
