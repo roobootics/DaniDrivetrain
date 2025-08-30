@@ -40,6 +40,7 @@ public class tets extends LinearOpMode {
                     new PedroSleepUntilPose(63,29,0,2,5),
                     new InstantCommand(()->follower.setMaxPower(0.6)),
                     new SleepUntilTrue(()->!follower.isBusy()),
+                    new InstantCommand(()->follower.setMaxPower(1.0)),
                     new RunResettingLoop(
                             new PressTrigger(
                                     new IfThen(
