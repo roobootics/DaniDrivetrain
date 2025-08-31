@@ -26,7 +26,6 @@ public class tets extends LinearOpMode {
     @Override
     public void runOpMode(){
         DaniDrivetrain.init(hardwareMap,telemetry);
-        follower.setStartingPose(new Pose(48,24,0));
         waitForStart();
         executor.setCommands(
             new SequentialCommand(

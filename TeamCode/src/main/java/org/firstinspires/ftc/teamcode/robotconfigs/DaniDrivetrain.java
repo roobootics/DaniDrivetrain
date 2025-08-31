@@ -18,7 +18,7 @@ public class DaniDrivetrain {
 
     public static void init(HardwareMap hardwareMap, Telemetry telemetry){
         initialize(hardwareMap,telemetry);
-        Pedro.createFollower();
+        Pedro.createFollower(new Pose(48,24,0));
         leftFront=new BotMotor("leftFront",new String[]{"leftFront"},()->1.0,()->-1.0,new DcMotorSimple.Direction[]{DcMotorSimple.Direction.REVERSE});
         leftRear=new BotMotor("leftRear",new String[]{"leftRear"},()->1.0,()->-1.0,new DcMotorSimple.Direction[]{DcMotorSimple.Direction.REVERSE});
         rightFront=new BotMotor("rightFront",new String[]{"rightFront"},()->1.0,()->-1.0,new DcMotorSimple.Direction[]{DcMotorSimple.Direction.FORWARD});

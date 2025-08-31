@@ -28,8 +28,9 @@ public abstract class Pedro {
     public static Pose getPose(){
         return getPose.call();
     }
-    public static void createFollower(){
+    public static void createFollower(Pose startingPose){
         follower=Constants.createFollower(Components.getHardwareMap());
+        follower.setStartingPose(startingPose);
     }
     public static Commands.RunResettingLoop updateCommand(){
         return new Commands.RunResettingLoop(new Commands.InstantCommand(follower::update));
