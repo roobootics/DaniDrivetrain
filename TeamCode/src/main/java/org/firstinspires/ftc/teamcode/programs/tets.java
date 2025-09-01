@@ -46,7 +46,7 @@ public class tets extends LinearOpMode {
                 new InstantCommand(()->follower.setMaxPower(1.0)),
                 new PedroCommand(
                         (PathBuilder b)->
-                                b.curveThrough(0.1,new Pose(72,48),new Pose(96,24))
+                                b.curveThrough(1,new Pose(72,48),new Pose(96,24))
                                 .setLinearHeadingInterpolation(Pedro.getPose().getHeading(),45),
                         false
                 ),
