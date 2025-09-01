@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.programs;
 import static org.firstinspires.ftc.teamcode.base.Commands.executor;
 import static org.firstinspires.ftc.teamcode.base.Components.telemetryAddData;
 import static org.firstinspires.ftc.teamcode.base.Components.telemetryAddLine;
+import static org.firstinspires.ftc.teamcode.base.Components.timer;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Pedro.follower;
 import static org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain.leftFront;
 import static org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain.leftRear;
@@ -24,12 +25,13 @@ import org.firstinspires.ftc.teamcode.base.Components.BotMotor;
 
 @TeleOp
 public class tets extends LinearOpMode {
+    double time;
     @Override
     public void runOpMode(){
         DaniDrivetrain.init(hardwareMap,telemetry);
         waitForStart();
         SequentialCommand sequence = new SequentialCommand(
-                new PedroLinearCommand(72,12,45,false),
+                new PedroLinearCommand(72,24,45,false),
                 new PedroLinearChainCommand(false,
                         new Pose(96,24,0),
                         new Pose(48,24,-90)
@@ -38,7 +40,7 @@ public class tets extends LinearOpMode {
                 new PedroInstantLinearCommand(96,48,-45,false),
                 new SleepCommand(0.5),
                 new PedroInstantLinearCommand(48,24,0,false),
-                new PedroSleepUntilPose(63,29,0,2,5),
+                new SleepUntilTrue(()->follower.getCurrentTValue()>0.7),
                 new InstantCommand(()->follower.setMaxPower(0.6)),
                 new SleepUntilTrue(()->!follower.isBusy()),
                 new InstantCommand(()->follower.setMaxPower(1.0)),
@@ -53,13 +55,25 @@ public class tets extends LinearOpMode {
                         new PressTrigger(
                                 new IfThen(
                                         ()->gamepad1.a,
-                                        new PedroLinearCommand(48,24,0,false)
+                                        new ParallelCommand(
+                                                new InstantCommand(()->{
+                                                    leftFront.setPower(0);
+                                                    leftRear.setPower(0);
+                                                    rightFront.setPower(0);
+                                                    rightRear.setPower(0);
+                                                }),
+                                                new PedroLinearCommand(48,24,0,false)
+                                        )
                                 )
                         ),
                         new ConditionalCommand(
                                 new IfThen(
                                         ()->!follower.isBusy(),
                                         new RobotCentricMecanumCommand(new BotMotor[]{leftFront,leftRear,rightFront,rightRear},()-> (double) gamepad1.left_stick_x,()-> (double) gamepad1.left_stick_y,()-> (double) gamepad1.right_stick_x)
+                                ),
+                                new IfThen(
+                                        ()->true,
+                                        new InstantCommand(()->{})
                                 )
                         )
 
@@ -68,6 +82,10 @@ public class tets extends LinearOpMode {
         executor.setCommands(
             sequence,
             Pedro.updateCommand()
+        );
+        executor.setCommands(
+                new PedroLinearCommand(96,24,0,true),
+                Pedro.updateCommand()
         );
         executor.setWriteToTelemetry(()->{
             telemetryAddData("busy",follower.isBusy());
@@ -80,6 +98,8 @@ public class tets extends LinearOpMode {
             telemetryAddData("targetheading",follower.getHeadingGoal(follower.getCurrentTValue()));
             telemetryAddData("drivevectorx",follower.getDriveVector().getXComponent());
             telemetryAddData("drivevectory",follower.getDriveVector().getYComponent());
+            telemetryAddData("looptime",timer.time()-time);
+            time=timer.time();
         });
         executor.runLoop(this::opModeIsActive);
     }
