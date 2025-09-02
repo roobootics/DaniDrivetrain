@@ -10,6 +10,7 @@ import static org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain.leftRea
 import static org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain.rightFront;
 import static org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain.rightRear;
 
+import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -25,6 +26,7 @@ import org.firstinspires.ftc.teamcode.base.Commands.RunResettingLoop;
 import org.firstinspires.ftc.teamcode.base.Commands.SequentialCommand;
 import org.firstinspires.ftc.teamcode.base.Commands.SleepCommand;
 import org.firstinspires.ftc.teamcode.base.Commands.SleepUntilTrue;
+import org.firstinspires.ftc.teamcode.base.Components;
 import org.firstinspires.ftc.teamcode.base.Components.BotMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Pedro;
 import org.firstinspires.ftc.teamcode.pedroPathing.Pedro.PedroCommand;
@@ -39,8 +41,12 @@ public class othertets extends LinearOpMode {
     double time;
     @Override
     public void runOpMode(){
-        DaniDrivetrain.init(hardwareMap,telemetry);
-        PedroLinearCommand path = new PedroLinearCommand(96,24,0,true);
+        Components.initialize(hardwareMap,telemetry,new DaniDrivetrain(),true);
+        PedroCommand path = new PedroCommand((PathBuilder b)->
+                b.addPath(new BezierLine(follower::getPose,new Pose(96,24,0)))
+                .setLinearHeadingInterpolation(0,0),
+                true
+        );
         path.buildPath();
         waitForStart();
         executor.setCommands(

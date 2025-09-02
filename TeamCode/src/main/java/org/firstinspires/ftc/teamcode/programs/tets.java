@@ -11,6 +11,7 @@ import static org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain.rightFr
 import static org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain.rightRear;
 
 import org.firstinspires.ftc.teamcode.base.Commands.*;
+import org.firstinspires.ftc.teamcode.base.Components;
 import org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain;
 import org.firstinspires.ftc.teamcode.pedroPathing.Pedro.*;
 
@@ -28,7 +29,7 @@ public class tets extends LinearOpMode {
     double time;
     @Override
     public void runOpMode(){
-        DaniDrivetrain.init(hardwareMap,telemetry);
+        Components.initialize(hardwareMap,telemetry,new DaniDrivetrain(),true);
         waitForStart();
         SequentialCommand sequence = new SequentialCommand(
                 new PedroLinearCommand(72,24,45,false),

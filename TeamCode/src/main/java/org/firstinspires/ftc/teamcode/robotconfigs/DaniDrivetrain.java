@@ -10,14 +10,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.base.Components.*;
 import org.firstinspires.ftc.teamcode.pedroPathing.Pedro;
 
-public class DaniDrivetrain {
+public class DaniDrivetrain extends PartsConfig{
     public static BotMotor leftFront;
     public static BotMotor leftRear;
     public static BotMotor rightFront;
     public static BotMotor rightRear;
 
-    public static void init(HardwareMap hardwareMap, Telemetry telemetry){
-        initialize(hardwareMap,telemetry);
+    public void init(){
         Pedro.createFollower(new Pose(48,24,0));
         leftFront=new BotMotor("leftFront",new String[]{"leftFront"},()->1.0,()->-1.0,new DcMotorSimple.Direction[]{DcMotorSimple.Direction.REVERSE});
         leftRear=new BotMotor("leftRear",new String[]{"leftRear"},()->1.0,()->-1.0,new DcMotorSimple.Direction[]{DcMotorSimple.Direction.REVERSE});
