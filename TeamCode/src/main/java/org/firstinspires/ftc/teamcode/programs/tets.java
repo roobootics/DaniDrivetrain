@@ -55,15 +55,7 @@ public class tets extends LinearOpMode {
                         new PressTrigger(
                                 new IfThen(
                                         ()->gamepad1.a,
-                                        new ParallelCommand(
-                                                new InstantCommand(()->{
-                                                    leftFront.setPower(0);
-                                                    leftRear.setPower(0);
-                                                    rightFront.setPower(0);
-                                                    rightRear.setPower(0);
-                                                }),
-                                                new PedroLinearCommand(48,24,0,false)
-                                        )
+                                        new PedroLinearCommand(48,24,0,false)
                                 )
                         ),
                         new ConditionalCommand(
