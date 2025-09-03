@@ -83,10 +83,6 @@ public class tets extends LinearOpMode {
             sequence,
             Pedro.updateCommand()
         );
-        executor.setCommands(
-                new PedroLinearCommand(96,24,0,true),
-                Pedro.updateCommand()
-        );
         executor.setWriteToTelemetry(()->{
             telemetryAddData("busy",follower.isBusy());
             telemetryAddData("action",sequence.getCurrentAction());
