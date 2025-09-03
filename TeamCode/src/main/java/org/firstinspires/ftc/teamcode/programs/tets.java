@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.base.Components;
 import org.firstinspires.ftc.teamcode.robotconfigs.DaniDrivetrain;
 import org.firstinspires.ftc.teamcode.pedroPathing.Pedro.*;
 
-import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -48,7 +47,7 @@ public class tets extends LinearOpMode {
                 new PedroCommand(
                         (PathBuilder b)->
                                 b.curveThrough(1,new Pose(72,48),new Pose(96,24))
-                                .setLinearHeadingInterpolation(Pedro.getPose().getHeading(),45),
+                                .setLinearHeadingInterpolation(follower.getPose().getHeading(),45),
                         false
                 ),
                 new RunResettingLoop(
