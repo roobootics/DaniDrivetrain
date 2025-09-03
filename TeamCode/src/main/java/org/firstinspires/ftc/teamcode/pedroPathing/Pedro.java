@@ -8,25 +8,17 @@ import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.base.Commands;
 import org.firstinspires.ftc.teamcode.base.Components;
-import org.firstinspires.ftc.teamcode.base.LambdaInterfaces;
 
 import java.util.function.Function;
 
 public abstract class Pedro {
+    public static Follower follower;
+
     static{
         PedroSleepUntilPose.setGetPose(()->{
-            Pose pose=getPose();
+            Pose pose=follower.getPose();
             return new double[]{pose.getX(),pose.getY(),pose.getHeading()};
         });
-    }
-    public static Follower follower;
-    private static final LambdaInterfaces.ReturningFunc<Pose> getPose = new Components.CachedReader<>(
-            ()->{follower.updatePose(); return follower.getPose();},
-            1
-    )::cachedRead;
-
-    public static Pose getPose(){
-        return getPose.call();
     }
     public static void createFollower(Pose startingPose){
         follower=Constants.createFollower(Components.getHardwareMap());

@@ -55,9 +55,9 @@ public class othertets extends LinearOpMode {
         );
         executor.setWriteToTelemetry(()->{
             telemetryAddData("busy",follower.isBusy());
-            telemetryAddData("x",Pedro.getPose().getX());
-            telemetryAddData("y",Pedro.getPose().getY());
-            telemetryAddData("heading",Pedro.getPose().getHeading());
+            telemetryAddData("x",follower.getPose().getX());
+            telemetryAddData("y",follower.getPose().getY());
+            telemetryAddData("heading",follower.getPose().getHeading());
             telemetryAddData("targetx",follower.getCurrentPath().getLastControlPoint().getX());
             telemetryAddData("targety",follower.getCurrentPath().getLastControlPoint().getY());
             telemetryAddData("targetheading",follower.getHeadingGoal(follower.getCurrentTValue()));
