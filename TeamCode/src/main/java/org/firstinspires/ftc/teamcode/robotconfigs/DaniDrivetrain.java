@@ -1,16 +1,11 @@
 package org.firstinspires.ftc.teamcode.robotconfigs;
 
-import static org.firstinspires.ftc.teamcode.base.Components.initialize;
-
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.base.Components.*;
 import org.firstinspires.ftc.teamcode.pedroPathing.Pedro;
 
-public class DaniDrivetrain extends PartsConfig{
+public class DaniDrivetrain implements PartsConfig {
     public static BotMotor leftFront;
     public static BotMotor leftRear;
     public static BotMotor rightFront;
