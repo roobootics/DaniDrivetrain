@@ -75,6 +75,15 @@ public class tets extends LinearOpMode {
             sequence,
             Pedro.updateCommand()
         );
+        executor.setCommands(
+                new PedroCommand(
+                        (PathBuilder b)->
+                                b.curveThrough(1,new Pose(72,48),new Pose(96,24))
+                                .setConstantHeadingInterpolation(45),
+                        false
+                ),
+                Pedro.updateCommand()
+        );
         executor.setWriteToTelemetry(()->{
             telemetryAddData("busy",follower.isBusy());
             telemetryAddData("action",sequence.getCurrentAction());
