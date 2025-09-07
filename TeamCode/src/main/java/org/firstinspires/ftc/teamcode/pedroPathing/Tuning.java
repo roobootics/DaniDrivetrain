@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
-import static org.firstinspires.ftc.teamcode.base.Components.telemetryAddData;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.changes;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.drawCurrent;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.drawCurrentAndHistory;
@@ -1271,8 +1270,15 @@ class Drawing {
             }
         }
         panelsField.setStyle(style);
-        panelsField.moveCursor(points[0][0], points[0][1]);
-        panelsField.line(points[1][0], points[1][1]);
+        panelsField.moveCursor(points[0][0], points[1][0]);
+        if (path.getCurve() instanceof BezierLine){
+            panelsField.line(points[0][points[0].length-1], points[1][points[0].length-1]);
+        }
+        else{
+            for (int i=0;i<points[0].length;i+=2){
+                panelsField.line(points[0][i], points[1][i]);
+            }
+        }
     }
 
     /**
