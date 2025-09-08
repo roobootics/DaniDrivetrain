@@ -1190,7 +1190,7 @@ class Drawing {
             "", "#3F51B5", 0.9
     );
     private static final Style historyLook = new Style(
-            "", "#4CAF50", 0.9
+            "", "#4CAF50", 0.6
     );
 
     /**
@@ -1277,6 +1277,7 @@ class Drawing {
         else{
             for (int i=0;i<points[0].length;i+=2){
                 panelsField.line(points[0][i], points[1][i]);
+                panelsField.moveCursor(points[0][i], points[1][i]);
             }
         }
     }

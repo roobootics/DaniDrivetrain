@@ -80,7 +80,7 @@ public class tets extends LinearOpMode {
                         (PathBuilder b)->
                                 b.curveThrough(1,new Pose(72,48),new Pose(96,24))
                                 .setConstantHeadingInterpolation(45),
-                        false
+                        true
                 ),
                 Pedro.updateCommand()
         );
