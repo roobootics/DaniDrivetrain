@@ -369,7 +369,16 @@ public abstract class Commands { //Command-based system
             remainingCommands.get(0).stop();
         }
         public Command getCurrentAction(){
+            if (remainingCommands.isEmpty()){
+                return commands.get(0);
+            }
             return remainingCommands.get(0);
+        }
+        public int getCurrentActionIndex(){
+            if (remainingCommands.isEmpty()){
+                return 0;
+            }
+            return commands.size()-remainingCommands.size();
         }
     }
 
